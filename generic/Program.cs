@@ -33,6 +33,39 @@
         public override string ToString() => $"({Key}, {Value})";
     }
     #endregion
+    #region Q4 & Q5: Generic methods - Swap<T> and FindMax<T>
+    /*
+     * A generic method has its own type parameter. 
+     */
+    public static class GenericMethods
+    {
+        // Q4: swaps two values 
+        public static void Swap<T>(ref T a, ref T b)
+        {
+            T temp = a;
+            a = b;
+            b = temp;
+        }
+
+        // Q5: T must implement <T> so that values can be compared
+        public static T FindMax<T>(IEnumerable<T> items) where T : IComparable<T>
+        {
+            using (var e = items.GetEnumerator())
+            {
+                if (!e.MoveNext())
+                    throw new InvalidOperationException("Sequence is empty.");
+
+                T max = e.Current;
+                while (e.MoveNext())
+                {
+                    if (e.Current.CompareTo(max) > 0)
+                        max = e.Current;
+                }
+                return max;
+            }
+        }
+    }
+    #endregion
     internal class Program
     {
         static void Main(string[] args)
