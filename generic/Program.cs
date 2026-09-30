@@ -17,6 +17,22 @@
         public int Count => _items.Count;
     }
     #endregion
+    #region Q3: Multiple 
+
+    public class Pair<TKey, TValue>
+    {
+        public TKey Key { get; set; }
+        public TValue Value { get; set; }
+
+        public Pair(TKey key, TValue value)
+        {
+            Key = key;
+            Value = value;
+        }
+
+        public override string ToString() => $"({Key}, {Value})";
+    }
+    #endregion
     internal class Program
     {
         static void Main(string[] args)
