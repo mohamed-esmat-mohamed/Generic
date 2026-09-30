@@ -196,6 +196,52 @@
         }
     }
     #endregion
+
+    #region Q12: Multiple constraints
+    // بنفصل الـ constraints بفاصلة. الترتيب: class ,struct base class  interfaces  new()
+    public class BaseEntity
+    {
+        public int Id { get; set; }
+    }
+
+    public interface IValidatable
+    {
+        bool IsValid();
+    }
+
+    public class Product : BaseEntity, IValidatable
+    {
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+
+        public bool IsValid() => !string.IsNullOrWhiteSpace(Name) && Price > 0;
+    }
+
+    public class EntityManager<T> where T : BaseEntity, IValidatable, new()
+    {
+        private readonly List<T> _items = new List<T>();
+
+        public T CreateEmpty()
+        {
+            var item = new T();
+            item.Id = _items.Count + 1;
+            return item;
+        }
+
+        public bool TryAdd(T item)
+        {
+            if (!item.IsValid()) return false;
+            _items.Add(item);
+            return true;
+        }
+    }
+    public class Converter<TIn, TOut>
+        where TIn : struct
+        where TOut : class, new()
+    {
+        public TOut Create() => new TOut();
+    }
+    #endregion
     internal class Program
     {
         static void Main(string[] args)
