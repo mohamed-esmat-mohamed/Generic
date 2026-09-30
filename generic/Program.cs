@@ -398,6 +398,35 @@
     }
     #endregion
     #region Q18
+
+    #region Q19
+    // 1) الأب generic والابن Concrete 
+    // 2) الأب generic والابن generic 
+    // 3) الابن بيضيف Type Parameters 
+    public class BaseRepo<T>
+    {
+        protected List<T> Items = new List<T>();
+        public virtual void Add(T item) => Items.Add(item);
+        public int Count => Items.Count;
+    }
+    public class StringRepo : BaseRepo<string>
+    {
+        public override void Add(string item) => base.Add(item.ToUpper());
+    }
+    public class LoggingRepo<T> : BaseRepo<T>
+    {
+        public override void Add(T item)
+        {
+            Console.WriteLine($"Adding {item}");
+            base.Add(item);
+        }
+    }
+
+    public class MetaRepo<T, TMeta> : BaseRepo<T>
+    {
+        public TMeta Metadata { get; set; }
+    }
+    #endregion
     public class Counter<T>
     {
         public static int Count;
