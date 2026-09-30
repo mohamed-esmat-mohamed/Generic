@@ -97,6 +97,21 @@
     }
     #endregion
 
+    #region Q7
+    // where T : struct  T لازم يكون Value Type int, double
+    public class NumberBox<T> where T : struct
+    {
+        public T Value { get; set; }
+
+        public NumberBox(T value) => Value = value;
+
+        public bool IsDefault() => EqualityComparer<T>.Default.Equals(Value, default(T));
+
+
+        public T? ToNullable() => Value;
+    }
+    #endregion
+
     internal class Program
     {
         static void Main(string[] args)
