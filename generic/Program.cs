@@ -336,6 +336,67 @@
         public void Consume(Animal item) => Console.WriteLine($"Consuming animal: {item.Name}");
     }
     #endregion
+    #region Q17: Covariance vs Contravariance
+    /*
+     * الفرق بين Covariance و Contravariance:
+     *
+     * Covariance:
+     * out → Output → Derived -> Base
+     *
+     * Contravariance:
+     * in → Input → Base - Derived
+     *
+     * مثال:
+     * Animal = Base
+     * Dog    = Derived
+     *
+     * Covariance:
+     * IEnumerable<Dog> - IEnumerable<Animal>
+     *
+     * Contravariance:
+     * Action<Animal> - Action<Dog>
+     *
+     *
+     * Invariance:
+     * لو مفيش out ولا in،
+     * لازم النوع يكون مطابق بالظبط.
+     *
+     * مثال:
+     * List<Dog> مش بتتحول إلى List<Animal>
+     *
+     * لأن List<T> تقدر:
+     * - تقرأ T
+     * - وتضيف T
+     *
+     * لذلك لازم النوع يتطابق بالظبط.
+     *
+     *
+     * ملاحظة:
+     * Variance بتشتغل مع:
+     * - Interfaces
+     * - Delegates
+     *
+     * وكمان مع Reference Types.
+     */
+    public static class VarianceDemo
+    {
+        public static void Run()
+        {
+            
+            IProducer<Dog> dogProducer = new DogProducer();
+            IProducer<Animal> animalProducer = dogProducer;
+            Console.WriteLine("Produced: " + animalProducer.Produce().Name);
+            IEnumerable<Dog> dogs = new List<Dog> { new Dog { Name = "A" } };
+            IEnumerable<Animal> animals = dogs;
+            IConsumer<Animal> animalConsumer = new AnimalConsumer();
+            IConsumer<Dog> dogConsumer = animalConsumer;
+            dogConsumer.Consume(new Dog { Name = "Buddy" });
+            Action<Animal> actAnimal = a => Console.WriteLine("Action on " + a.Name);
+            Action<Dog> actDog = actAnimal;
+            actDog(new Dog { Name = "Max" });
+        }
+    }
+    #endregion
     internal class Program
     {
         static void Main(string[] args)
