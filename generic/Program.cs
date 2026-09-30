@@ -33,6 +33,7 @@
         public override string ToString() => $"({Key}, {Value})";
     }
     #endregion
+    
     #region Q4 & Q5: Generic methods - Swap<T> and FindMax<T>
     /*
      * A generic method has its own type parameter. 
@@ -66,6 +67,36 @@
         }
     }
     #endregion
+
+
+    #region Q6
+    // Generic interface  إنترفيس بـي type parameterr الكلاس اللي بينفذه يحدد النوع.
+    public interface IEntity
+    {
+        int Id { get; }
+    }
+
+    public interface IRepository<T> where T : IEntity
+    {
+        void Add(T item);
+        T GetById(int id);
+        IEnumerable<T> GetAll();
+        bool Remove(int id);
+    }
+    public class InMemoryRepository<T> : IRepository<T> where T : IEntity
+    {
+        private readonly Dictionary<int, T> _store = new Dictionary<int, T>();
+
+        public void Add(T item) => _store[item.Id] = item;
+
+        public T GetById(int id) => _store.TryGetValue(id, out var item) ? item : default;
+
+        public IEnumerable<T> GetAll() => _store.Values;
+
+        public bool Remove(int id) => _store.Remove(id);
+    }
+    #endregion
+
     internal class Program
     {
         static void Main(string[] args)
