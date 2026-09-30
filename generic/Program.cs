@@ -121,6 +121,21 @@
         public T OrDefault(T item, T fallback) => item ?? fallback;
     }
     #endregion
+
+    #region Q9
+    // where T : new()   T لازم يكون ليه Public parameterless
+    public class Factory<T> where T : new()
+    {
+        public T Create() => new T();
+
+        public List<T> CreateMany(int count)
+        {
+            var list = new List<T>();
+            for (int i = 0; i < count; i++) list.Add(new T());
+            return list;
+        }
+    }
+    #endregion
     internal class Program
     {
         static void Main(string[] args)
