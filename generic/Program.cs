@@ -397,6 +397,15 @@
         }
     }
     #endregion
+    #region Q18
+    public class Counter<T>
+    {
+        public static int Count;
+
+        public Counter() => Count++;
+    }
+    #endregion
+
     internal class Program
     {
         static void Main(string[] args)
