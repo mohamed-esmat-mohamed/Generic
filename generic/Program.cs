@@ -242,6 +242,16 @@
         public TOut Create() => new TOut();
     }
     #endregion
+
+    #region Q13: The 'default' keyword
+    /*
+     * default(T) أو default: بترجّع القيمة الافتراضية للنوع T
+     *   - Reference types: null
+     *   - int/double.. :0
+     *   - bool: false
+     *   - struct: كل الحقول بقيمها الافتراضية
+     */
+    #endregion
     internal class Program
     {
         static void Main(string[] args)
