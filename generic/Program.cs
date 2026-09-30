@@ -399,6 +399,16 @@
     #endregion
     #region Q18
 
+
+    public class Counter<T>
+    {
+        public static int Count;
+
+        public Counter() => Count++;
+    }
+    #endregion
+
+
     #region Q19
     // 1) الأب generic والابن Concrete 
     // 2) الأب generic والابن generic 
@@ -427,14 +437,68 @@
         public TMeta Metadata { get; set; }
     }
     #endregion
-    public class Counter<T>
-    {
-        public static int Count;
 
-        public Counter() => Count++;
+    #region Q20
+    public class Cache<TKey, TValue>
+    {
+        private class CacheItem
+        {
+            public TValue Value { get; set; }
+            public DateTime ExpiresAt { get; set; }
+            public bool IsExpired => DateTime.UtcNow >= ExpiresAt;
+        }
+
+        private readonly Dictionary<TKey, CacheItem> _store = new Dictionary<TKey, CacheItem>();
+        private readonly TimeSpan _defaultExpiration;
+
+        public Cache() : this(TimeSpan.FromMinutes(5)) { }
+
+        public Cache(TimeSpan defaultExpiration)
+        {
+            _defaultExpiration = defaultExpiration;
+        }
+
+        public void Add(TKey key, TValue value, TimeSpan? expiration = null)
+        {
+            _store[key] = new CacheItem
+            {
+                Value = value,
+                ExpiresAt = DateTime.UtcNow + (expiration ?? _defaultExpiration)
+            };
+        }
+        public bool TryGet(TKey key, out TValue value)
+        {
+            if (_store.TryGetValue(key, out var item))
+            {
+                if (!item.IsExpired)
+                {
+                    value = item.Value;
+                    return true;
+                }
+                _store.Remove(key);
+            }
+            value = default;
+            return false;
+        }
+        public TValue Get(TKey key) => TryGet(key, out var v) ? v : default;
+
+        public bool Remove(TKey key) => _store.Remove(key);
+
+        public bool Contains(TKey key) => TryGet(key, out _);
+
+        public int RemoveExpired()
+        {
+            var expired = new List<TKey>();
+            foreach (var kv in _store)
+                if (kv.Value.IsExpired) expired.Add(kv.Key);
+
+            foreach (var k in expired) _store.Remove(k);
+            return expired.Count;
+        }
+
+        public int Count => _store.Count;
     }
     #endregion
-
     internal class Program
     {
         static void Main(string[] args)
