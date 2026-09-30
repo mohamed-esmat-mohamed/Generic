@@ -164,6 +164,38 @@
         public void Print(T shape) => Console.WriteLine($"{typeof(T).Name} area = {shape.Area():F2}");
     }
     #endregion
+
+    #region Q11
+    // where T : Animal  => T لازم يكون Animal أو كلاس بيورث منه.
+    public class Animal
+    {
+        public string Name { get; set; }
+        public virtual string Speak() => "...";
+    }
+
+    public class Dog : Animal
+    {
+        public override string Speak() => "Woof!";
+    }
+
+    public class Cat : Animal
+    {
+        public override string Speak() => "Meow!";
+    }
+
+    public class Kennel<T> where T : Animal
+    {
+        private readonly List<T> _animals = new List<T>();
+
+        public void Add(T animal) => _animals.Add(animal);
+
+        public void MakeAllSpeak()
+        {
+            foreach (var a in _animals)
+                Console.WriteLine($"{a.Name}: {a.Speak()}");
+        }
+    }
+    #endregion
     internal class Program
     {
         static void Main(string[] args)
