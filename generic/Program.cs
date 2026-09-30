@@ -515,6 +515,53 @@
              */
             #endregion
 
+            var c = new Container<int>();
+            c.Add(10); c.Add(20);
+            Console.WriteLine($"Q2: {c.Get(1)}");
+
+
+            var p = new Pair<string, int>("Age", 25);
+            Console.WriteLine($"Q3: {p}");
+
+            int a = 1, b = 2;
+            GenericMethods.Swap(ref a, ref b);
+            Console.WriteLine($"Q4: a={a}, b={b}");
+            Console.WriteLine($"Q5: {GenericMethods.FindMax(new[] { 3, 9, 4 })}");
+            Console.WriteLine($"Q5: {GenericMethods.FindMax(new[] { "apple", "pear", "banana" })}");
+            var repo = new InMemoryRepository<Product>();
+            repo.Add(new Product { Id = 1, Name = "Pen", Price = 5 });
+            Console.WriteLine($"Q6: {repo.GetById(1).Name}, missing => {(repo.GetById(99) == null ? "null" : "found")}");
+
+            Console.WriteLine($"Q7: {new NumberBox<int>(0).IsDefault()}");
+            Console.WriteLine($"Q8: {new ReferenceChecker<string>().IsNull(null)}");
+            Console.WriteLine($"Q9: {new Factory<List<int>>().Create().Count}");
+            new ShapePrinter<Circle>().Print(new Circle(2));                   
+            var kennel = new Kennel<Dog>();                                    
+            kennel.Add(new Dog { Name = "Rex" });
+            kennel.MakeAllSpeak();
+            var mgr = new EntityManager<Product>();                           
+            var prod = mgr.CreateEmpty();
+            Console.WriteLine($"Q12: empty added? {mgr.TryAdd(prod)}");
+            prod.Name = "Book"; prod.Price = 20;
+            Console.WriteLine($"Q12: valid added? {mgr.TryAdd(prod)}");
+            Console.WriteLine($"Q13: int={DefaultDemo.GetDefault<int>()}, string={(DefaultDemo.GetDefault<string>() ?? "null")}, bool={DefaultDemo.GetDefault<bool>()}");
+            var safe = new SafeList<int>();
+            safe.Add(5);
+            Console.WriteLine($"Q14: [0]={safe[0]}, [10]={safe[10]}");
+            VarianceDemo.Run();
+            new Counter<int>(); new Counter<int>(); new Counter<string>();
+            Console.WriteLine($"Q18: int={Counter<int>.Count}, string={Counter<string>.Count}");
+            var sr = new StringRepo(); sr.Add("abc");
+            var lr = new LoggingRepo<int>(); lr.Add(42);
+            Console.WriteLine($"Q19: {sr.Count}, {lr.Count}");
+            var cache = new Cache<string, string>(TimeSpan.FromSeconds(1));
+            cache.Add("user", "Ahmed");
+            cache.Add("temp", "x", TimeSpan.FromMilliseconds(100));
+            Console.WriteLine($"Q20: Contains(user)={cache.Contains("user")}, Get={cache.Get("user")}");
+            System.Threading.Thread.Sleep(200);
+            Console.WriteLine($"Q20: temp expired => Contains={cache.Contains("temp")}");
+            Console.WriteLine($"Q20: Remove(user)={cache.Remove("user")}");
+
         }
     }
 }
