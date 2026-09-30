@@ -136,6 +136,34 @@
         }
     }
     #endregion
+
+    #region Q10
+    // where T : IShape  => T لازم ينفذ الإنترفيس ده، فنقدر نستدعي أعضاءه.
+    public interface IShape
+    {
+        double Area();
+    }
+
+    public class Circle : IShape
+    {
+        public double Radius { get; set; }
+        public Circle(double r) => Radius = r;
+        public double Area() => Math.PI * Radius * Radius;
+    }
+
+    public class Rectangle : IShape
+    {
+        public double Width { get; set; }
+        public double Height { get; set; }
+        public Rectangle(double w, double h) { Width = w; Height = h; }
+        public double Area() => Width * Height;
+    }
+
+    public class ShapePrinter<T> where T : IShape
+    {
+        public void Print(T shape) => Console.WriteLine($"{typeof(T).Name} area = {shape.Area():F2}");
+    }
+    #endregion
     internal class Program
     {
         static void Main(string[] args)
