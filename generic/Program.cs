@@ -112,6 +112,15 @@
     }
     #endregion
 
+    #region Q8
+    // where T : class   T لازم يكون Reference Type class, interface
+    public class ReferenceChecker<T> where T : class
+    {
+        public bool IsNull(T item) => item == null;   // المقارنة بـ null مسموحة هنا
+
+        public T OrDefault(T item, T fallback) => item ?? fallback;
+    }
+    #endregion
     internal class Program
     {
         static void Main(string[] args)
