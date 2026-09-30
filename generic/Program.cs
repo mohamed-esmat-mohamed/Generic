@@ -270,6 +270,40 @@
         public T Get(int index) => this[index];
     }
     #endregion
+
+    #region Q15: Covariance 
+    /*
+     * Covariance:
+     * معناها إننا نقدر نستخدم Generic Type فيه نوع مشتق
+     *
+     * مثال:
+     * Dog هو نوع مشتق من Animal.
+     *
+     * IProducer<Dog>
+     * ممكن نستخدمه مكان:
+     * IProducer<Animal>
+     *
+     * كلمة out:
+     * معناها إن T بيتم استخدامه كـ Output فقط،
+     * يعني بنرجعه من Method أو Property،
+     * ومينفعش نستخدم T كـ Parameter في Method.
+     *
+     * مثال:
+     * interface IProducer<out T>
+     * {
+     *     T Get();   // صح
+     * }
+     */
+    public interface IProducer<out T>
+    {
+        T Produce();
+    }
+
+    public class DogProducer : IProducer<Dog>
+    {
+        public Dog Produce() => new Dog { Name = "Rex" };
+    }
+    #endregion
     internal class Program
     {
         static void Main(string[] args)
