@@ -304,6 +304,38 @@
         public Dog Produce() => new Dog { Name = "Rex" };
     }
     #endregion
+
+    #region Q16: Contravariance
+    /*
+     * Contravariance:
+     * معناها إننا نقدر نستخدم Generic Type فيه نوع أساسي
+     * مثال:
+     * Animal هو النوع الأساسي، و Dog نوع مشتق منه.
+     *
+     * IConsumer<Animal>
+     * ممكن نستخدمه مكان:
+     * IConsumer<Dog>
+     *
+     * كلمة in:
+     * معناها إن T بيتم استخدامه كـ Input فقط،
+     * يعني T بيكون Parameter في Method،
+     * ومينفعش يكون Return Type.
+     *
+     * ببساطة:
+     * Contravariance = in
+     * in = البيانات بتدخل
+     * Base → Derived
+     */
+    public interface IConsumer<in T>
+    {
+        void Consume(T item);
+    }
+
+    public class AnimalConsumer : IConsumer<Animal>
+    {
+        public void Consume(Animal item) => Console.WriteLine($"Consuming animal: {item.Name}");
+    }
+    #endregion
     internal class Program
     {
         static void Main(string[] args)
