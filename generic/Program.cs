@@ -252,6 +252,24 @@
      *   - struct: كل الحقول بقيمها الافتراضية
      */
     #endregion
+
+    #region Q14
+    public class SafeList<T>
+    {
+        private readonly List<T> _list = new List<T>();
+
+        public void Add(T item) => _list.Add(item);
+
+        public int Count => _list.Count;
+
+        public T this[int index]
+        {
+            get => (index >= 0 && index < _list.Count) ? _list[index] : default;
+        }
+
+        public T Get(int index) => this[index];
+    }
+    #endregion
     internal class Program
     {
         static void Main(string[] args)
